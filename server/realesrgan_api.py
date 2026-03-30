@@ -46,6 +46,12 @@ app.add_middleware(
 )
 
 API_KEY = os.getenv("ENHANCER_API_KEY", "").strip()
+ENABLE_FACE_ENHANCE = os.getenv("ENABLE_FACE_ENHANCE", "0").strip().lower() in {
+    "1",
+    "true",
+    "yes",
+    "on",
+}
 
 WEIGHTS_DIR = (
     Path(__file__).resolve().parent.parent / "outputs" / "realesrgan" / "weights"
@@ -188,7 +194,11 @@ def verify_api_key(
 
 @app.get("/health")
 def health() -> dict[str, str | bool]:
-  return {"status": "ok", "auth_required": bool(API_KEY)}
+  return {
+      "status": "ok",
+      "auth_required": bool(API_KEY),
+      "face_enhance_enabled": ENABLE_FACE_ENHANCE,
+  }
 
 
 @app.post("/enhance")
@@ -207,14 +217,22 @@ async def enhance(
   try:
       upsampler = get_x4_upsampler() if scale == "4" else get_x2_upsampler()
       upscaled, _ = upsampler.enhance(src, outscale=int(scale))
-      face_enhancer = get_face_enhancer()
-      _, _, restored = face_enhancer.enhance(
-          upscaled,
-          has_aligned=False,
-          only_center_face=False,
-          paste_back=True,
-          weight=weight_from_mode(mode),
-      )
+      restored = upscaled
+      if ENABLE_FACE_ENHANCE:
+          try:
+              face_enhancer = get_face_enhancer()
+              _, _, restored = face_enhancer.enhance(
+                  upscaled,
+                  has_aligned=False,
+                  only_center_face=False,
+                  paste_back=True,
+                  weight=weight_from_mode(mode),
+              )
+          except Exception:
+              # Fail open for cloud stability: if face enhancement fails,
+              # still return Real-ESRGAN output instead of crashing request.
+              restored = upscaled
+
       ok, encoded = cv2.imencode(".png", restored)
       if not ok:
           raise RuntimeError("PNG encoding failed")

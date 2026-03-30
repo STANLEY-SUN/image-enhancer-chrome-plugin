@@ -14,6 +14,9 @@ Use this service if you want Chrome extension output to match the current fideli
 - optional auth:
   - set env `ENHANCER_API_KEY=your_secret`
   - client sends `Authorization: Bearer your_secret` or `X-API-Key: your_secret`
+- optional stability mode:
+  - `ENABLE_FACE_ENHANCE=0` (recommended on small cloud instances)
+  - `ENABLE_FACE_ENHANCE=1` enables GFPGAN face restoration (higher memory usage)
 
 ## Start service
 
@@ -21,6 +24,7 @@ Use this service if you want Chrome extension output to match the current fideli
 source .venv-realesrgan/bin/activate
 pip install fastapi uvicorn python-multipart
 export ENHANCER_API_KEY=your_secret_key
+export ENABLE_FACE_ENHANCE=0
 uvicorn server.realesrgan_api:app --host 127.0.0.1 --port 8765
 ```
 
