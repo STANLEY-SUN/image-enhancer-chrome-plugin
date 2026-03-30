@@ -1,0 +1,274 @@
+:root {
+  color-scheme: light dark;
+  --bg: #f2f4f8;
+  --panel: #ffffff;
+  --text: #1a1d24;
+  --muted: #5f6776;
+  --line: #d8deea;
+  --primary: #2d6cdf;
+  --primary-2: #1f56b9;
+  --danger: #b83250;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #101319;
+    --panel: #181d28;
+    --text: #ebeff8;
+    --muted: #b0b8c7;
+    --line: #2a3345;
+    --primary: #4b86ff;
+    --primary-2: #2f69e5;
+    --danger: #ff6f8a;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top left, #dfe8ff 0%, var(--bg) 45%);
+  color: var(--text);
+}
+
+.app {
+  width: 460px;
+  max-width: 100%;
+  padding: 14px;
+}
+
+.header h1 {
+  margin: 0 0 4px;
+  font-size: 18px;
+}
+
+.header p {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.drop-zone {
+  border: 2px dashed var(--line);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--panel) 92%, #c5d8ff 8%);
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 120ms ease, transform 120ms ease;
+}
+
+.drop-zone.drag-over {
+  border-color: var(--primary);
+  transform: translateY(-1px);
+}
+
+.drop-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.drop-subtitle {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.controls {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+label {
+  display: grid;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.checkbox {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.checkbox input[type="checkbox"] {
+  accent-color: var(--primary);
+}
+
+select,
+input[type="url"],
+input[type="password"] {
+  width: 100%;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 13px;
+}
+
+.advanced {
+  margin-top: 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 8px;
+  background: var(--panel);
+}
+
+.advanced summary {
+  font-size: 12px;
+  color: var(--muted);
+  cursor: pointer;
+  user-select: none;
+  margin-bottom: 8px;
+}
+
+.hint {
+  margin: 6px 0 0;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.advanced-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.actions {
+  margin-top: 12px;
+  display: flex;
+  gap: 8px;
+}
+
+button {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  color: white;
+  background: linear-gradient(180deg, var(--primary), var(--primary-2));
+}
+
+button.ghost {
+  color: var(--text);
+  background: var(--panel);
+  border: 1px solid var(--line);
+}
+
+button.small {
+  padding: 7px 10px;
+  font-size: 12px;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.status {
+  min-height: 20px;
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.status.error {
+  color: var(--danger);
+}
+
+.backend-help {
+  margin-top: 8px;
+  border: 1px solid color-mix(in srgb, var(--danger) 30%, var(--line));
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--danger) 10%, var(--panel));
+  color: var(--danger);
+  font-size: 12px;
+  line-height: 1.4;
+  padding: 10px;
+  white-space: pre-wrap;
+}
+
+.progress {
+  margin-top: 8px;
+  width: 100%;
+  height: 4px;
+  border-radius: 999px;
+  overflow: hidden;
+  position: relative;
+  background: color-mix(in srgb, var(--line) 80%, transparent);
+}
+
+.progress::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, var(--primary), transparent);
+  animation: loading 1s linear infinite;
+}
+
+@keyframes loading {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.preview {
+  margin-top: 12px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px;
+}
+
+.compare-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #d0d5df;
+}
+
+.compare-wrap img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.enhanced-layer {
+  position: absolute;
+  inset: 0;
+  width: 50%;
+  overflow: hidden;
+}
+
+#compareSlider {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+}
+
+.meta {
+  margin: 10px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.hidden {
+  display: none;
+}

@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "Image Enhancer Pro",
+  "description": "Enhance image clarity and reduce compression artifacts with a fidelity-first pipeline.",
+  "version": "1.1.1",
+  "permissions": [
+    "storage",
+    "downloads",
+    "contextMenus"
+  ],
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "assets/icons/icon16.png",
+    "32": "assets/icons/icon32.png",
+    "48": "assets/icons/icon48.png",
+    "128": "assets/icons/icon128.png"
+  }
+}

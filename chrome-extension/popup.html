@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Enhancer Pro</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="header">
+        <h1>Image Enhancer Pro</h1>
+        <p>Fidelity-first enhancement for portraits and compressed photos.</p>
+      </header>
+
+      <section id="dropZone" class="drop-zone">
+        <input id="fileInput" type="file" accept="image/*" hidden />
+        <div class="drop-inner">
+          <p class="drop-title">Drop an image here</p>
+          <p class="drop-subtitle">or click to choose a file</p>
+        </div>
+      </section>
+
+      <section class="controls">
+        <label>
+          Scale
+          <select id="scaleSelect">
+            <option value="2">2x</option>
+            <option value="4">4x</option>
+          </select>
+        </label>
+        <label>
+          Mode
+          <select id="modeSelect">
+            <option value="fidelity">Fidelity</option>
+            <option value="balanced">Balanced</option>
+            <option value="sharp">Sharp</option>
+          </select>
+        </label>
+      </section>
+
+      <details class="advanced">
+        <summary>Advanced</summary>
+        <label>
+          Backend mode
+          <select id="backendModeSelect">
+            <option value="auto">Auto (Cloud first, then local)</option>
+            <option value="cloud">Cloud only (always online)</option>
+            <option value="local">Local only</option>
+          </select>
+        </label>
+        <label>
+          Backend endpoint
+          <input
+            id="endpointInput"
+            type="url"
+            placeholder="https://your-api.example.com/enhance"
+          />
+        </label>
+        <label>
+          API key (optional)
+          <input
+            id="apiKeyInput"
+            type="password"
+            placeholder="sk-xxxx"
+          />
+        </label>
+        <label class="checkbox">
+          <input id="allowFallbackCheckbox" type="checkbox" />
+          <span>Allow local fallback (lower quality)</span>
+        </label>
+        <div class="advanced-actions">
+          <button id="testEndpointBtn" type="button" class="ghost small">
+            Test Backend
+          </button>
+          <button id="autoDetectBtn" type="button" class="ghost small">
+            Auto Detect Local Backend
+          </button>
+        </div>
+        <p class="hint">
+          For production, choose Cloud only and keep fallback disabled.
+        </p>
+      </details>
+
+      <section class="actions">
+        <button id="enhanceBtn" disabled>Enhance</button>
+        <button id="resetBtn" class="ghost" disabled>New Image</button>
+        <button id="downloadBtn" class="ghost" disabled>Download</button>
+      </section>
+
+      <div id="status" class="status" aria-live="polite"></div>
+      <div id="backendHelp" class="backend-help hidden"></div>
+      <div id="progressBar" class="progress hidden"></div>
+
+      <section id="previewSection" class="preview hidden">
+        <div class="compare-wrap">
+          <img id="originalImg" alt="Original preview" />
+          <div id="enhancedLayer" class="enhanced-layer">
+            <img id="enhancedImg" alt="Enhanced preview" />
+          </div>
+          <input id="compareSlider" type="range" min="0" max="100" value="50" />
+        </div>
+        <p id="metaText" class="meta"></p>
+      </section>
+    </main>
+
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

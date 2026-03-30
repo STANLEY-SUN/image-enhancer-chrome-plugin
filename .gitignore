@@ -1,0 +1,25 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Virtual environments
+.venv/
+.venv-realesrgan/
+venv/
+
+# Build / distribution
+dist/
+
+# Heavy/generated artifacts
+outputs/
+tmp/
+gfpgan/
+
+# Logs
+*.log
