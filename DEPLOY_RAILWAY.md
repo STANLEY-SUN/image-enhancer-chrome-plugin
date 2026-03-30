@@ -13,6 +13,8 @@ Railway deploys from a GitHub repository.
 3. Select this repo.
 4. Railway will detect `Dockerfile` at repo root and build it.
 
+If you previously had failed builds, open `Deployments` and click `Redeploy` after pulling latest `main`.
+
 ## 3) Set environment variables
 
 In Railway service settings, add:
@@ -53,3 +55,5 @@ Then click `Test Backend` and run enhancement.
 
 - First enhancement request can be slow because model weights may download on first run.
 - If you rotate API key in Railway, update plugin `API key` too.
+- Railway `Private Networking` warnings are expected if your service is not yet successfully deployed.
+- If build fails at pip install, ensure your deployment is using the latest Dockerfile in `main`.
