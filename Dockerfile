@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 COPY server/requirements-cloud.txt /app/server/requirements-cloud.txt
 RUN pip install --no-cache-dir --upgrade pip setuptools wheel
-RUN pip install --no-cache-dir -r /app/server/requirements-cloud.txt
+RUN pip install --no-cache-dir --use-pep517 -r /app/server/requirements-cloud.txt
 
 COPY server /app/server
 
