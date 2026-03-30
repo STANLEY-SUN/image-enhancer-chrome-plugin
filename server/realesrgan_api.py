@@ -3,11 +3,31 @@ from __future__ import annotations
 from io import BytesIO
 import os
 from pathlib import Path
+import sys
+import types
 from typing import Literal
 
 import cv2
 import numpy as np
 import torch
+
+# Compatibility shim: some BasicSR versions import
+# `torchvision.transforms.functional_tensor.rgb_to_grayscale`,
+# which is removed in newer torchvision releases.
+try:
+    from torchvision.transforms import functional as tv_functional
+
+    if "torchvision.transforms.functional_tensor" not in sys.modules:
+        functional_tensor_mod = types.ModuleType(
+            "torchvision.transforms.functional_tensor"
+        )
+        functional_tensor_mod.rgb_to_grayscale = tv_functional.rgb_to_grayscale
+        sys.modules["torchvision.transforms.functional_tensor"] = functional_tensor_mod
+except Exception:
+    # If torchvision is unavailable or import fails, let downstream imports raise
+    # a clear error as before.
+    pass
+
 from basicsr.archs.rrdbnet_arch import RRDBNet
 from basicsr.utils.download_util import load_file_from_url
 from fastapi import Depends, FastAPI, File, Form, Header, HTTPException, UploadFile
